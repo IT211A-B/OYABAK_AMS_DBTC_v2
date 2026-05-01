@@ -50,7 +50,7 @@ namespace AMS_DBTC_API_v2.Services.Implementations
                 Email = teacherDto.Email,
                 Department = teacherDto.Department
             };
-            var createdTeacher = await _repo.AddAsync(teacher);
+            var createdTeacher = await _repo.CreateAsync(teacher);
             return new TeacherDTO
             {
                 Id = createdTeacher.Id,

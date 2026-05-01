@@ -19,7 +19,7 @@ namespace AMS_DBTC_API_v2.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateStudent([FromBody] CreateStudentDTO studentDto)
+        public IActionResult AddStudent([FromBody] CreateStudentDTO studentDto)
         {
             if (studentDto == null)
             {

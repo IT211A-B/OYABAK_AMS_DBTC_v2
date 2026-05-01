@@ -16,7 +16,7 @@ namespace AMS_DBTC_API_v2.Repository.Implementations
             await Task.Delay(100); // Simulating async operation
             return _context.Teachers.ToList();
         }
-        public async Task<Teacher> AddAsync(Teacher teacher)
+        public async Task<Teacher> CreateAsync(Teacher teacher)
         {
             await Task.Delay(100); // Simulating async operation
             _context.Teachers.Add(teacher);
