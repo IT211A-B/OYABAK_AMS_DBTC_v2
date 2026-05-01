@@ -1,0 +1,35 @@
+﻿using System.ComponentModel.DataAnnotations;
+using AMS_DBTC_API_v2.Enums;
+
+namespace AMS_DBTC_API_v2.Models
+{
+    public class Student
+    {
+        public int StudentId { get; set; }
+        
+        [Required]
+        [StringLength(20)]
+        public string RollNumber { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string MiddleName { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string LastName { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string Email { get; set; }
+        public Sex sex { get; set; }
+        public YearLevel yearLevel { get; set; }
+
+        public int CourseId { get; set; }
+        public Course Course { get; set; }
+    }
+}
