@@ -1,7 +1,6 @@
 ﻿using AMS_DBTC_API_v2.DTOs;
 using AMS_DBTC_API_v2.Repository.Interface;
 using AMS_DBTC_API_v2.Services.Interface;
-using AMS_DBTC_API_v2.Enums;
 
 namespace AMS_DBTC_API_v2.Services.Implementations
 {
@@ -61,7 +60,7 @@ namespace AMS_DBTC_API_v2.Services.Implementations
                 sex = studentDto.sex
             };
 
-            var createdStudent = await _repo.AddAsync(student);
+            var createdStudent = await _repo.CreateAsync(student);
             return new StudentDTO
             {
                 StudentId = createdStudent.StudentId,

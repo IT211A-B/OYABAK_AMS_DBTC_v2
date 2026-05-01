@@ -16,7 +16,7 @@ namespace AMS_DBTC_API_v2.Controllers
             _teacherService = teacherService;
         }
         [HttpPost]
-        public IActionResult CreateTeacher([FromBody] CreateTeacherDTO teacherDto)
+        public IActionResult AddTeacher([FromBody] CreateTeacherDTO teacherDto)
         {
             if (teacherDto == null)
             {
