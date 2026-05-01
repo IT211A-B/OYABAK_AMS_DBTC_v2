@@ -32,6 +32,10 @@ namespace AMS_DBTC_API_v2.DTOs
         [Required]
         [StringLength(50)]
         public string LastName { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string Email { get; set; }
         public Sex sex { get; set; }
         public YearLevel yearLevel { get; set; }
         public string Program { get; set; }
@@ -56,6 +60,9 @@ namespace AMS_DBTC_API_v2.DTOs
         [Required]
         [StringLength(50)]
         public string LastName { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string Email { get; set; }
         public Sex sex { get; set; }
         public YearLevel yearLevel { get; set; }
 

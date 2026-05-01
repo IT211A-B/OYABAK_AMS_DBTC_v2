@@ -11,29 +11,32 @@ namespace AMS_DBTC_API_v2.Repository.Implementations
             _context = context;
         }
 
-        public async Task<IEnumerable<Student>> GetAll()
+        public async Task<IEnumerable<Student>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            await Task.Delay(100); // Simulating async operation
+            return _context.Students.ToList();
         }
-        public async Task<Student> Add(Student student)
+        public async Task<Student> AddAsync(Student student)
         {
-            throw new NotImplementedException();
+            await Task.Delay(100); // Simulating async operation
+            _context.Students.Add(student);
+            return student;
         }
-        public async Task<Student> GetById(int id)
+        public async Task<Student> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            await Task.Delay(100); // Simulating async operation
+            return _context.Students.FirstOrDefault(s => s.StudentId == id);
         }
-        public async Task Save()
+        public async Task UpdateAsync(Student student)
         {
-            throw new NotImplementedException();
+            await Task.Delay(100); // Simulating async operation
+            _context.Students.Update(student);
         }
-        public async Task Update(Student student)
+        public async Task<bool> DeleteAsync(Student student)
         {
-            throw new NotImplementedException();
-        }
-        public async Task Delete(Student student)
-        {
-            throw new NotImplementedException();
+            await Task.Delay(100); // Simulating async operation
+            _context.Students.Remove(student);
+            return true;
         }
     }
 }

@@ -4,15 +4,15 @@ namespace AMS_DBTC_API_v2.Repository.Interface
 {
     public interface IStudentRepository
     {
-        Task<IEnumerable<Student>> GetAll();
-        Task<Student> GetById(int id);
+        Task<IEnumerable<Student>> GetAllAsync();
+        Task<Student> GetByIdAsync(int id);
 
-        Task <Student> Add(Student student);
+        Task<Student> AddAsync(Student student);
 
-        Task Update(Student student);
+        Task UpdateAsync(Student student);
 
-        Task Delete(Student student);
+        Task<bool> DeleteAsync(Student student);
 
-        Task Save();
+        
     }
 }
