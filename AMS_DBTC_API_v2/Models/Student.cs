@@ -9,27 +9,25 @@ namespace AMS_DBTC_API_v2.Models
         
         [Required]
         [StringLength(20)]
-        public string RollNumber { get; set; }
+        public string RollNumber { get; set; } = string.Empty;
 
         [Required]
         [StringLength(50)]
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = string.Empty;   
+        [StringLength(50)]
+        public string? MiddleName { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string MiddleName { get; set; }
+        public string LastName { get; set; } = string.Empty;
 
         [Required]
         [StringLength(50)]
-        public string LastName { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
         public Sex sex { get; set; }
         public YearLevel yearLevel { get; set; }
 
         public int CourseId { get; set; }
-        public Course Course { get; set; }
+        public Course Course { get; set; } = null!;
     }
 }
