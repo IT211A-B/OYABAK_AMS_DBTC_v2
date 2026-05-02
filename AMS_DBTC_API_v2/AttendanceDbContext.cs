@@ -9,9 +9,19 @@ namespace AMS_DBTC_API_v2
         {
         }
 
+
         public DbSet<Student> Students { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Course> Courses { get; set; }
+        public DbSet<Attendance> Attendances { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Attendance>()
+                .HasIndex(a => new { a.StudentId, a.CourseId, a.Date })
+                .IsUnique();
+        }
     }
 
 }
