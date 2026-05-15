@@ -1,0 +1,69 @@
+﻿@* @page
+@model AM_DBTC.Views.Shared._LayoutModel
+@{
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DBTC Attendance</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <div class="layout-wrapper">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-menu-label">MENU</div>
+            <nav class="sidebar-nav">
+                <a href="@Url.Action("Index", "Attendance")"
+                   class="nav-item @(ViewBag.ActiveRoute == "Attendance" ? "active" : "")">
+                    <span class="nav-icon">&#128197;</span>
+                    Attendance
+                </a>
+                <a href="@Url.Action("Index", "Student")"
+                   class="nav-item @(ViewBag.ActiveRoute == "Students" ? "active" : "")">
+                    <span class="nav-icon">&#127891;</span>
+                    Students
+                </a>
+                <a href="@Url.Action("Index", "Faculty")"
+                   class="nav-item @(ViewBag.ActiveRoute == "Faculty" ? "active" : "")">
+                    <span class="nav-icon">&#128188;</span>
+                    Faculty
+                </a>
+                <a href="@Url.Action("Index", "Course")"
+                   class="nav-item @(ViewBag.ActiveRoute == "Courses" ? "active" : "")">
+                    <span class="nav-icon">&#128218;</span>
+                    Courses
+                </a>
+            </nav>
+            <div class="sidebar-footer">&#169; 2026 DBTC Attendance</div>
+        </aside>
+
+        <!-- MAIN AREA -->
+        <div class="main-area">
+            <!-- TOP HEADER -->
+            <header class="topbar">
+                <div class="topbar-brand">
+                    <div class="brand-icon">&#9881;</div>
+                    <div class="brand-text">
+                        <strong>DBTC Attendance</strong>
+                        <span>Don Bosco Technical College-Cebu</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- PAGE CONTENT -->
+            <main class="page-content">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html> *@

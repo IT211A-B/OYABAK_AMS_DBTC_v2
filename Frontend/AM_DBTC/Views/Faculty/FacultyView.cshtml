@@ -1,0 +1,159 @@
+﻿@model AM_DBTC.Models.FacultyModel
+@{
+    Layout = "_FacultyLayout";
+}
+
+@* @section Styles {
+    <link rel="stylesheet" href="~/css/Faculty.css" />
+} *@
+
+<div class="faculty-container">
+
+    @* headre *@
+    <div class="faculty-header">
+        <h1>Faculty Management</h1>
+        <button class="add-faculty-btn" onclick="openAddModal()">ADD FACULTY</button>
+    </div>
+
+    @* filter card *@
+    <div class="faculty-filter-card">
+        <form method="get" asp-action="FacultyView" asp-controller="Faculty" class="faculty-filter-form">
+            <input type="text"
+                   name="search"
+                   class="faculty-search"
+                   placeholder="Search by Name or ID"
+                   value="@Model.SearchTerm" />
+            <select name="semester" class="faculty-select">
+                @foreach (var s in Model.Semesters)
+                {
+                    <option value="@s" selected="@(Model.SelectedSemester == s ? "selected" : null)">@s</option>
+                }
+            </select>
+        </form>
+    </div>
+
+    @* table card *@
+    <div class="faculty-table-card">
+        <table class="faculty-table">
+            <thead>
+                <tr>
+                    <th>Emp ID</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Courses</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Faculties.Count == 0)
+                {
+                    <tr>
+                        <td colspan="5" style="text-align:center; padding:30px; color:gray;">No faculty found.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var f in Model.Faculties)
+                    {
+                        <tr>
+                            <td class="emp-id">@f.EmpId</td>
+                            <td class="faculty-name">@f.Name</td>
+                            <td>@f.Department</td>
+                            <td>@f.Courses</td>
+                            <td>
+                                <button class="edit-btn"
+                                        onclick="openEditModal('@f.EmpId', '@f.Name', '@f.Department', '@f.Courses')">
+                                    Edit
+                                </button>
+                                <button class="delete-btn"
+                                        onclick="confirmDelete('@f.EmpId', '@f.Name')">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* modal: add *@
+<div id="addModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+        <h2 class="modal-title">Add Faculty</h2>
+        <form method="post" asp-action="Add" asp-controller="Faculty">
+            @Html.AntiForgeryToken()
+            <div class="modal-field">
+                <label>Employee ID</label>
+                <input type="text" name="EmpId" class="modal-input" required />
+            </div>
+            <div class="modal-field">
+                <label>Full Name</label>
+                <input type="text" name="Name" class="modal-input" required />
+            </div>
+            <div class="modal-field">
+                <label>Department</label>
+                <input type="text" name="Department" class="modal-input" required />
+            </div>
+            <div class="modal-field">
+                <label>No. of Courses</label>
+                <input type="number" name="Courses" class="modal-input" min="0" value="0" required />
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="modal-cancel-btn" onclick="closeModal('addModal')">Cancel</button>
+                <button type="submit" class="modal-submit-btn">Add Faculty</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* modal: edit *@
+<div id="editModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+        <h2 class="modal-title">Edit Faculty</h2>
+        <form method="post" asp-action="Edit" asp-controller="Faculty">
+            @Html.AntiForgeryToken()
+            <div class="modal-field">
+                <label>Employee ID</label>
+                <input type="text" id="editEmpId" name="EmpId" class="modal-input" readonly />
+            </div>
+            <div class="modal-field">
+                <label>Full Name</label>
+                <input type="text" id="editName" name="Name" class="modal-input" required />
+            </div>
+            <div class="modal-field">
+                <label>Department</label>
+                <input type="text" id="editDepartment" name="Department" class="modal-input" required />
+            </div>
+            <div class="modal-field">
+                <label>No. of Courses</label>
+                <input type="number" id="editCourses" name="Courses" class="modal-input" min="0" required />
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="modal-cancel-btn" onclick="closeModal('editModal')">Cancel</button>
+                <button type="submit" class="modal-submit-btn">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* modal: delete *@
+<div id="deleteModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+        <h2 class="modal-title">Delete Faculty</h2>
+        <p id="deleteMessage" style="margin-bottom:20px; color:#333;"></p>
+        <form method="post" asp-action="Delete" asp-controller="Faculty">
+            @Html.AntiForgeryToken()
+            <input type="hidden" id="deleteEmpId" name="empId" />
+            <div class="modal-actions">
+                <button type="button" class="modal-cancel-btn" onclick="closeModal('deleteModal')">Cancel</button>
+                <button type="submit" class="modal-delete-btn">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Faculty.js"></script>
+}

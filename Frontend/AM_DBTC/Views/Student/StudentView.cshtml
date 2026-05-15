@@ -1,0 +1,175 @@
+﻿@model AM_DBTC.Models.StudentModel
+@{
+    Layout = "_StudentLayout";
+}
+
+@* @section Styles {
+    <link rel="stylesheet" href="~/css/Student.css" />
+} *@
+
+<div class="students-container">
+
+    @* header *@
+    <div class="students-header">
+        <h1>Student Management</h1>
+        <button class="add-student-btn" onclick="openAddModal()">ADD STUDENT</button>
+    </div>
+
+    @* filter card *@
+    <div class="student-filter-card">
+        <form method="get" asp-action="StudentView" asp-controller="Student" class="student-filter-form">
+            <input type="text"
+                   name="search"
+                   class="student-search"
+                   placeholder="Search by Name or Roll No"
+                   value="@Model.SearchTerm" />
+            <select name="semester" class="student-select">
+                @foreach (var s in Model.Semesters)
+                {
+                    <option value="@s" selected="@(Model.SelectedSemester == s ? "selected" : null)">@s</option>
+                }
+            </select>
+            <select name="branch" class="student-select">
+                @foreach (var b in Model.Branches)
+                {
+                    <option value="@b" selected="@(Model.SelectedBranch == b ? "selected" : null)">@b</option>
+                }
+            </select>
+        </form>
+    </div>
+
+   @* table card *@
+    <div class="student-table-card">
+        <table class="students-table">
+            <thead>
+                <tr>
+                    <th>Roll #</th>
+                    <th>Name</th>
+                    <th>Semester</th>
+                    <th>Course</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Students.Count == 0)
+                {
+                    <tr>
+                        <td colspan="5" class="empty-row">No students found.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var student in Model.Students)
+                    {
+                        <tr>
+                            <td class="roll-no">@student.RollNo</td>
+                            <td class="student-name">@student.Name</td>
+                            <td>@student.Semester</td>
+                            <td>@student.Course</td>
+                            <td>
+                                <button class="edit-btn"
+                                        onclick="openEditModal('@student.RollNo', '@student.Name', '@student.Semester', '@student.Course')">
+                                    Edit
+                                </button>
+                                <button class="delete-btn"
+                                        onclick="confirmDelete('@student.RollNo', '@student.Name')">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* modal: add *@
+<div id="addModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+        <h2 class="modal-title">Add Student</h2>
+        <form method="post" asp-action="Add" asp-controller="Student">
+            @Html.AntiForgeryToken()
+            <div class="modal-field">
+                <label>Roll No</label>
+                <input type="text" name="RollNo" class="modal-input" required />
+            </div>
+            <div class="modal-field">
+                <label>Full Name</label>
+                <input type="text" name="Name" class="modal-input" required />
+            </div>
+            <div class="modal-field">
+                <label>Semester</label>
+                <input type="number" name="Semester" class="modal-input" min="1" required />
+            </div>
+            <div class="modal-field">
+                <label>Course</label>
+                <select name="Course" class="modal-input">
+                    @foreach (var b in Model.Branches.Where(b => b != "All Branches"))
+                    {
+                        <option value="@b">@b</option>
+                    }
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="modal-cancel-btn" onclick="closeModal('addModal')">Cancel</button>
+                <button type="submit" class="modal-submit-btn">Add Student</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* modal: edit *@
+<div id="editModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+        <h2 class="modal-title">Edit Student</h2>
+        <form method="post" asp-action="Edit" asp-controller="Student">
+            @Html.AntiForgeryToken()
+            <div class="modal-field">
+                <label>Roll No</label>
+                <input type="text" id="editRollNo" name="RollNo" class="modal-input" readonly />
+            </div>
+            <div class="modal-field">
+                <label>Full Name</label>
+                <input type="text" id="editName" name="Name" class="modal-input" required />
+            </div>
+            <div class="modal-field">
+                <label>Semester</label>
+                <input type="number" id="editSemester" name="Semester" class="modal-input" min="1" required />
+            </div>
+            <div class="modal-field">
+                <label>Course</label>
+                <select id="editCourse" name="Course" class="modal-input">
+                    @foreach (var b in Model.Branches.Where(b => b != "All Branches"))
+                    {
+                        <option value="@b">@b</option>
+                    }
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="modal-cancel-btn" onclick="closeModal('editModal')">Cancel</button>
+                <button type="submit" class="modal-submit-btn">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* modal: delete *@
+<div id="deleteModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+        <h2 class="modal-title">Delete Student</h2>
+        <p id="deleteMessage" style="margin-bottom:20px; color:#333;"></p>
+        <form method="post" asp-action="Delete" asp-controller="Student">
+            @Html.AntiForgeryToken()
+            <input type="hidden" id="deleteRollNo" name="rollNo" />
+            <div class="modal-actions">
+                <button type="button" class="modal-cancel-btn" onclick="closeModal('deleteModal')">Cancel</button>
+                <button type="submit" class="modal-delete-btn">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Student.js"></script>
+}

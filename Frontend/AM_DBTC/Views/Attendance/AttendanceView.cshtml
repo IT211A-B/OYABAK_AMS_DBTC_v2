@@ -1,0 +1,112 @@
+﻿@model AM_DBTC.Models.AttendanceModel
+@{
+    Layout = "_AttendanceLayout";
+}
+
+@* @section Styles {
+    <link rel="stylesheet" href="~/css/Attendance.css" />
+} *@
+
+<div class="attendance-container">
+
+    @* header *@
+    <div class="attendance-header">
+        <h1>Attendance</h1>
+        <div class="attendance-filters">
+            <form method="get" asp-action="AttendanceView" asp-controller="Attendance" style="display:flex; gap:10px; flex-wrap:wrap;">
+                <select name="course" class="attendance-select">
+                    @foreach (var c in Model.Courses)
+                    {
+                        <option value="@c" selected="@(Model.SelectedCourse == c ? "selected" : null)">@c</option>
+                    }
+                </select>
+                <select name="month" class="attendance-select">
+                    @foreach (var m in Model.Months)
+                    {
+                        <option value="@m" selected="@(Model.SelectedMonth == m ? "selected" : null)">@m</option>
+                    }
+                </select>
+                <button type="submit" class="apply-btn">Apply</button>
+            </form>
+        </div>
+    </div>
+
+    @* summary cards *@
+    <div class="summary-cards">
+        <div class="summary-card total-card">
+            <h2>@Model.TotalClasses</h2>
+            <p>Total Classes Held</p>
+        </div>
+        <div class="summary-card present-card">
+            <h2>@Model.ClassesPresent</h2>
+            <p>Classes Present</p>
+        </div>
+        <div class="summary-card absent-card">
+            <h2>@Model.ClassesAbsent</h2>
+            <p>Classes Absent</p>
+        </div>
+    </div>
+
+    @* table cards *@
+    <div class="attendance-card">
+        <h2 class="attendance-title">Attendance Records</h2>
+        <table class="attendance-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Day</th>
+                    <th>Status</th>
+                    <th>Time</th>
+                    <th>Course</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Records.Count == 0)
+                {
+                    <tr>
+                        <td colspan="5" style="text-align:center; padding:30px; color:gray;">No records found.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var record in Model.Records)
+                    {
+                        <tr>
+                            <td>@record.Date</td>
+                            <td>@record.Day</td>
+                            <td>
+                                @{
+                                    var statusClass = record.Status.ToLower() switch
+                                    {
+                                        "present" => "present",
+                                        "absent" => "absent",
+                                        "leave" => "leave",
+                                        _ => ""
+                                    };
+                                    var statusIcon = record.Status.ToLower() switch
+                                    {
+                                        "present" => "✔ ",
+                                        "absent" => "✖ ",
+                                        "leave" => "🕐 ",
+                                        _ => ""
+                                    };
+                                }
+                                <span class="status @statusClass">@statusIcon@record.Status</span>
+                            </td>
+                            <td>@record.Time</td>
+                            <td class="course-name">@record.Course</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+        @* pagination *@
+        <div class="pagination">
+            <button class="page-btn">&lt; Previous</button>
+            <span class="page-number">Page @Model.CurrentPage of @Model.TotalPages</span>
+            <button class="page-btn">Next &gt;</button>
+        </div>
+    </div>
+
+</div>
