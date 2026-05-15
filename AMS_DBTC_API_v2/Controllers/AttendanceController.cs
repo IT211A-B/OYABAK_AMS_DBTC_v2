@@ -1,6 +1,7 @@
 ﻿using AMS_DBTC_API_v2.Services.Interface;
 using AMS_DBTC_API_v2.DTOs;
 using Microsoft.AspNetCore.Mvc;
+ 
 
 namespace AMS_DBTC_API_v2.Controllers
 {
@@ -16,6 +17,8 @@ namespace AMS_DBTC_API_v2.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddAttendance([FromBody] AttendanceUpsertDTO attendanceDto)
         {
             if (attendanceDto == null)
@@ -29,6 +32,9 @@ namespace AMS_DBTC_API_v2.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+
         public async Task<IActionResult> GetAttendanceById(int id)
         {
             var attendance = await _attendanceService.GetAttendanceByIdAsync(id);
@@ -40,6 +46,9 @@ namespace AMS_DBTC_API_v2.Controllers
         }
 
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
         public async Task<IActionResult> UpdateAttendance(int id, [FromBody] AttendanceUpsertDTO attendanceDto)
         {
             if (attendanceDto == null)
@@ -51,6 +60,8 @@ namespace AMS_DBTC_API_v2.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteAttendance(int id)
         {
             await _attendanceService.DeleteAttendanceAsync(id);
@@ -58,6 +69,9 @@ namespace AMS_DBTC_API_v2.Controllers
         }
 
         [HttpGet("course/{courseId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAttendancesByCourseId(int courseId)
         {
             var attendances = await _attendanceService.GetAttendancesByCourseIdAsync(courseId);
@@ -65,6 +79,9 @@ namespace AMS_DBTC_API_v2.Controllers
         }
 
         [HttpGet("student/{studentId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAttendancesByStudentId(int studentId)
         {
             var attendances = await _attendanceService.GetAttendancesByStudentIdAsync(studentId);

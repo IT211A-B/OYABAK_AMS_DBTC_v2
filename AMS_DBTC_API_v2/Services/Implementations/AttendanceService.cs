@@ -67,29 +67,29 @@ namespace AMS_DBTC_API_v2.Services.Implementations
             };
         }
 
-        public async Task<AttendanceDTO> UpdateAttendanceAsync(int id, AttendanceUpsertDTO attendanceDto)
+        public async Task<bool> UpdateAttendanceAsync(int id, AttendanceUpsertDTO attendanceDto)
         {
             var existing = await _attendanceRepository.GetByIdAsync(id);
             if (existing == null)
-                throw new KeyNotFoundException("Attendance record not found");
+                return false;
             existing.StudentId = attendanceDto.StudentId;
             existing.CourseId = attendanceDto.CourseId;
             existing.Date = attendanceDto.Date;
             existing.Status = attendanceDto.Status;
             var updatedAttendance = await _attendanceRepository.UpdateAsync(existing);
-            return new AttendanceDTO
-            {
-                AttendanceId = updatedAttendance.AttendanceId,
-                StudentId = updatedAttendance.StudentId,
-                CourseId = updatedAttendance.CourseId,
-                Date = updatedAttendance.Date,
-                Status = updatedAttendance.Status
-            };
+            return true;
         }
 
-        public async Task DeleteAttendanceAsync(int id)
+        public async Task<bool> DeleteAttendanceAsync(int id)
         {
-            await _attendanceRepository.DeleteAsync(id);
+            var existing = await _attendanceRepository.GetByIdAsync(id);
+            if (existing == null) 
+            {  
+                return false; 
+            }
+         
+            await _attendanceRepository.DeleteAsync(existing.AttendanceId);
+            return true;
         }
 
         public async Task<IEnumerable<AttendanceDTO>> GetAttendancesByCourseIdAsync(int courseId)

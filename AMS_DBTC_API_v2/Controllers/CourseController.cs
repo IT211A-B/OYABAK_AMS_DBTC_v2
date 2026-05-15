@@ -14,8 +14,11 @@ namespace AMS_DBTC_API_v2.Controllers
         {
             _courseService = courseService;
         }
+
         [HttpPost]
-        public IActionResult AddCourse([FromBody] CreateCourseDTO courseDto)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddCourse([FromBody] CreateCourseDTO courseDto)
         {
             if (courseDto == null)
             {
@@ -25,41 +28,56 @@ namespace AMS_DBTC_API_v2.Controllers
             return CreatedAtAction(nameof(GetCourseById), new { id = createdCourse.CourseId }, courseDto);
         }
         [HttpGet("{id}")]
-        public IActionResult GetCourseById(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+
+        public async Task<IActionResult> GetCourseById(int id)
         {
-            var course = _courseService.GetCourseByIdAsync(id).Result;
+            var course = await _courseService.GetCourseByIdAsync(id);
             if (course == null)
                 return NotFound();
             return Ok(course);
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateCourse(int id, [FromBody] UpdateCourseDTO courseDto)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
+        public async Task<IActionResult> UpdateCourse(int id, [FromBody] UpdateCourseDTO courseDto)
         {
             if (courseDto == null)
             {
                 return BadRequest("Course data is null.");
             }
-            _courseService.UpdateCourseAsync(id, courseDto).Wait();
+            await _courseService.UpdateCourseAsync(id, courseDto);
             return NoContent();
         }
         [HttpDelete("{id}")]
-        public IActionResult DeleteCourse(int id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+
+        public async Task<IActionResult> DeleteCourse(int id)
         {
-            _courseService.DeleteCourseAsync(id).Wait();
+            await _courseService.DeleteCourseAsync(id);
             return NoContent();
 
         }
         [HttpGet("teacher/{teacherId}")]
-        public IActionResult GetCoursesByTeacherId(int teacherId)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetCoursesByTeacherId(int teacherId)
         {
-            var courses = _courseService.GetCoursesByTeacherIdAsync(teacherId).Result;
+            var courses = await _courseService.GetCoursesByTeacherIdAsync(teacherId);
             return Ok(courses);
         }
 
         [HttpGet("student/{studentId}")]
-        public IActionResult GetCoursesByStudentId(int studentId)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetCoursesByStudentId(int studentId)
         {
-            var courses = _courseService.GetCoursesByStudentIdAsync(studentId).Result;
+            var courses = await _courseService.GetCoursesByStudentIdAsync(studentId);
             return Ok(courses);
         }
 

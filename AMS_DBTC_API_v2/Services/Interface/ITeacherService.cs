@@ -7,7 +7,7 @@ namespace AMS_DBTC_API_v2.Services.Interface
         Task<IEnumerable<TeacherDTO>> GetAllAsync();
         Task<TeacherDTO> GetTeacherByIdAsync(int id);
         Task<TeacherDTO> CreateTeacherAsync(CreateTeacherDTO teacherDto);
-        Task UpdateTeacherAsync(int id, UpdateTeacherDTO teacherDto);
-        Task DeleteTeacherAsync(int id);
+        Task<bool> UpdateTeacherAsync(int id, UpdateTeacherDTO teacherDto);
+        Task<bool> DeleteTeacherAsync(int id);
     }
 }

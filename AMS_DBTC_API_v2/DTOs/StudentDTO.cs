@@ -33,8 +33,7 @@ namespace AMS_DBTC_API_v2.DTOs
         [StringLength(50)]
         public string LastName { get; set; } = string.Empty;
 
-        [Required]
-        [StringLength(50)]
+        [EmailAddress]
         public string Email { get; set; } = string.Empty;
         public Sex sex { get; set; }
         public YearLevel yearLevel { get; set; }

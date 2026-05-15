@@ -46,21 +46,23 @@ namespace AMS_DBTC_API_v2.Services.Implementations
             };
         }
 
-        public async Task UpdateCourseAsync(int id, UpdateCourseDTO courseDto)
+        public async Task<bool> UpdateCourseAsync(int id, UpdateCourseDTO courseDto)
         {
             var course = await _repo.GetByIdAsync(id);
             if (course == null)
-                throw new KeyNotFoundException("Course not found");
+                return false;
             course.Name = courseDto.Name;
             await _repo.UpdateAsync(course);
+            return true;
         }
 
-        public async Task DeleteCourseAsync(int id)
+        public async Task<bool> DeleteCourseAsync(int id)
         {
             var course = await _repo.GetByIdAsync(id);
             if (course == null)
-                throw new KeyNotFoundException("Course not found");
+                return false;
             await _repo.DeleteAsync(course);
+            return true;
         }
 
         public async Task<IEnumerable<CourseDTO>> GetCoursesByTeacherIdAsync(int teacherId)

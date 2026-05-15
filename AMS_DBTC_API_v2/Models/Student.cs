@@ -24,9 +24,12 @@ namespace AMS_DBTC_API_v2.Models
         [Required]
         [StringLength(50)]
         public string Email { get; set; } = string.Empty;
+        [Required]
         public Sex sex { get; set; }
+        [Required]
         public YearLevel yearLevel { get; set; }
-
+        [Required]
+        public string Program { get; set; }
         public int CourseId { get; set; }
         public Course Course { get; set; } = null!;
     }

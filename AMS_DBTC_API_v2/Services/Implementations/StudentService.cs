@@ -24,7 +24,7 @@ namespace AMS_DBTC_API_v2.Services.Implementations
                 RollNumber = s.RollNumber,
                 Email = s.Email,
                 YearLevel = s.yearLevel,
-                sex = s.sex,
+                sex = s.sex,                
             });
         }
 
@@ -44,7 +44,7 @@ namespace AMS_DBTC_API_v2.Services.Implementations
                 RollNumber = student.RollNumber,
                 Email = student.Email,
                 YearLevel = student.yearLevel,
-                sex = student.sex
+                sex = student.sex,
             };
         }
         public async Task<StudentDTO> CreateStudentAsync(CreateStudentDTO studentDto)
@@ -57,7 +57,8 @@ namespace AMS_DBTC_API_v2.Services.Implementations
                 RollNumber = studentDto.RollNumber,
                 Email = studentDto.Email,
                 yearLevel = studentDto.yearLevel,
-                sex = studentDto.sex
+                sex = studentDto.sex,
+                Program = studentDto.Program
             };
 
             var createdStudent = await _repo.CreateAsync(student);
@@ -70,14 +71,14 @@ namespace AMS_DBTC_API_v2.Services.Implementations
                 RollNumber = createdStudent.RollNumber,
                 Email = createdStudent.Email,
                 YearLevel = createdStudent.yearLevel,
-                sex = createdStudent.sex
+                sex = createdStudent.sex,
             };
         }
-        public async Task UpdateStudentAsync(int id, UpdateStudentDTO studentDto)
+        public async Task<bool> UpdateStudentAsync(int id, UpdateStudentDTO studentDto)
         {
             var student = await _repo.GetByIdAsync(id);
             if (student == null)
-                throw new KeyNotFoundException("Student not found");
+                return false;
             student.FirstName = studentDto.FirstName;
             student.MiddleName = studentDto.MiddleName;
             student.LastName = studentDto.LastName;
@@ -87,18 +88,21 @@ namespace AMS_DBTC_API_v2.Services.Implementations
             student.sex = studentDto.sex;
 
             await _repo.UpdateAsync(student);
+            return true;
         }
 
-        public async Task DeleteStudentAsync(int id)
+        public async Task<bool> DeleteStudentAsync(int id)
         {
             var student = await _repo.GetByIdAsync (id);
 
             if (student == null)
-                throw new KeyNotFoundException("Student not found");
+                return false;
 
             var result = await _repo.DeleteAsync(student);
             if (!result)
-                throw new InvalidOperationException("Failed to delete student");
+                return false;
+
+            return true;
         }
     }
 }

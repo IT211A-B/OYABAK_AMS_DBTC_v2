@@ -7,8 +7,8 @@ namespace AMS_DBTC_API_v2.Services.Interface
         Task<IEnumerable<AttendanceDTO>> GetAllAsync();
         Task<AttendanceDTO> GetAttendanceByIdAsync(int id);
         Task<AttendanceDTO> CreateAttendanceAsync(AttendanceUpsertDTO attendanceDto);
-        Task<AttendanceDTO> UpdateAttendanceAsync(int id, AttendanceUpsertDTO attendanceDto);
-        Task DeleteAttendanceAsync(int id);
+        Task<bool> UpdateAttendanceAsync(int id, AttendanceUpsertDTO attendanceDto);
+        Task<bool> DeleteAttendanceAsync(int id);
         Task<IEnumerable<AttendanceDTO>> GetAttendancesByCourseIdAsync(int courseId);
         Task<IEnumerable<AttendanceDTO>> GetAttendancesByStudentIdAsync(int studentId);
     }
