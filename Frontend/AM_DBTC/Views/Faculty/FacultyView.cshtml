@@ -9,26 +9,37 @@
 
 <div class="faculty-container">
 
-    @* headre *@
+    @* header *@
     <div class="faculty-header">
         <h1>Faculty Management</h1>
         <button class="add-faculty-btn" onclick="openAddModal()">ADD FACULTY</button>
     </div>
 
     @* filter card *@
-    <div class="faculty-filter-card">
-        <form method="get" asp-action="FacultyView" asp-controller="Faculty" class="faculty-filter-form">
-            <input type="text"
-                   name="search"
-                   class="faculty-search"
-                   placeholder="Search by Name or ID"
-                   value="@Model.SearchTerm" />
+  <div class="faculty-filter-card">
+        <form method="get"
+              asp-action="FacultyView"
+              asp-controller="Faculty"
+              class="faculty-filter-form">
+
+            <input class="faculty-search"
+                   type="text"
+                   placeholder="Search by Name or ID" />
+
             <select name="semester" class="faculty-select">
                 @foreach (var s in Model.Semesters)
                 {
-                    <option value="@s" selected="@(Model.SelectedSemester == s ? "selected" : null)">@s</option>
+                    <option value="@s"
+                            selected="@(Model.SelectedSemester == s ? "selected" : null)">
+                        @s
+                    </option>
                 }
             </select>
+
+            <button type="submit" class="filter-btn">
+                Filter
+            </button>
+
         </form>
     </div>
 

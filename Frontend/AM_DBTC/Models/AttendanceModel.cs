@@ -2,7 +2,8 @@
 {
     public class AttendanceRecord
     {
-        public string Date { get; set; } = string.Empty;
+        public string UserName { get; set; } = "";
+        public DateTime Date { get; set; }
         public string Day { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty; // Presnt, Absent, and Leave
         public string Time { get; set; } = string.Empty;

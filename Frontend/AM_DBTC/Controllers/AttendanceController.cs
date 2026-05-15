@@ -2,6 +2,7 @@
 using AM_DBTC.Models;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using AM_DBTC.Services;
+using Microsoft.AspNetCore.HttpLogging;
 
 
 namespace AM_DBTC.Controllers
@@ -15,10 +16,10 @@ namespace AM_DBTC.Controllers
             _attendanceService = attendanceService;
         }
 
-        public async Task<IActionResult> AttendanceView(string course = "", string month = "March 2026")
+        public async Task<IActionResult> AttendanceView(string userName = "", string course = "All Courses", string month = "All Dates", int page = 1, int pageSize = 5)
         {
-            var model = await _attendanceService.GetAttendanceAsync(course, month);
-            return View("AttendanceView", model);
+            var model = await _attendanceService.GetAttendanceAsync(userName, course, month, page, pageSize);
+            return View(model); // use default view
         }
     }
 }
@@ -36,36 +37,7 @@ namespace AM_DBTC.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// logic should be on service as per miss tutorial
 
 //namespace AM_DBTC.Controllers
 //{
