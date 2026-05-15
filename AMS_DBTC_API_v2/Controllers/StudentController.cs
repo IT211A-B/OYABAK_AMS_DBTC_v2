@@ -1,58 +1,70 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AMS_DBTC_API_v2.DTOs;
-using AMS_DBTC_API_v2.Repository.Interface;
 using AMS_DBTC_API_v2.Services.Interface;
 
 namespace AMS_DBTC_API_v2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-
     public class StudentController : ControllerBase
-    {         // POST: api/Student
+    {         
         private readonly IStudentService _studentService;
-        public StudentController(IStudentRepository repo) => _studentService = _studentService;
 
         public StudentController(IStudentService studentService)
         {
             _studentService = studentService;
         }
-
+        // POST: api/Student
         [HttpPost]
-        public IActionResult AddStudent([FromBody] CreateStudentDTO studentDto)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddStudent([FromBody] CreateStudentDTO studentDto)
         {
-            if (studentDto == null)
-            {
-                return BadRequest("Student data is null.");
-            }
 
-            var createdStudent = _studentService.CreateStudentAsync(studentDto).Result;
-            return CreatedAtAction(nameof(GetStudentById), new { id = createdStudent.StudentId }, studentDto);
+            var createdStudent = await _studentService.CreateStudentAsync(studentDto);
+            return CreatedAtAction(nameof(GetStudentById), new { id = createdStudent.StudentId }, createdStudent);
         }
+        [HttpGet]
+        
         // GET: api/Student/{id}
         [HttpGet("{id}")]
-        public IActionResult GetStudentById(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetStudentById(int id)
         {
-            // Logic to retrieve a student record by ID from the database
-            // ...
-            return Ok(/* student data */);
+            var student = await _studentService.GetStudentByIdAsync(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+            return Ok(student);
         }
         // PUT: api/Student/{id}
         [HttpPut("{id}")]
-        public IActionResult UpdateStudent(int id, [FromBody] UpdateStudentDTO studentDto)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateStudent(int id, [FromBody] UpdateStudentDTO studentDto)
         {
-            // Logic to update an existing student record in the database
-            // ...
+            var updated = await _studentService.UpdateStudentAsync(id, studentDto);
+            if (!updated)
+            {
+                return NotFound();
+            }
             return NoContent();
         }
         // DELETE: api/Student/{id}
         [HttpDelete("{id}")]
-        public IActionResult DeleteStudent(int id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteStudent(int id)
         {
-            // Logic to delete a student record from the database
-            // ...
+            var deleted = await _studentService.DeleteStudentAsync(id);
+            if (!deleted)
+            {
+                return NotFound();
+            }
             return NoContent();
         }
     }
-
 }

@@ -31,7 +31,7 @@ namespace AMS_DBTC_API_v2.Repository.Implementations
         {
             await Task.Delay(100); // Simulating async operation
             _context.Teachers.Update(teacher);
-        }
+        }   
         public async Task<bool> DeleteAsync(Teacher teacher)
         {
             await Task.Delay(100); // Simulating async operation

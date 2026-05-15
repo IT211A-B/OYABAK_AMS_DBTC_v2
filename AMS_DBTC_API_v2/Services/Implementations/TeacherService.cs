@@ -61,24 +61,26 @@ namespace AMS_DBTC_API_v2.Services.Implementations
                 Department = createdTeacher.Department
             };
         }
-        public async Task UpdateTeacherAsync(int id, UpdateTeacherDTO teacherDto)
+        public async Task<bool> UpdateTeacherAsync(int id, UpdateTeacherDTO teacherDto)
         {
             var existingTeacher = await _repo.GetByIdAsync(id);
             if (existingTeacher == null)
-                throw new KeyNotFoundException("Teacher not found");
+                return false;
             existingTeacher.FirstName = teacherDto.FirstName;
             existingTeacher.MiddleName = teacherDto.MiddleName;
             existingTeacher.LastName = teacherDto.LastName;
             existingTeacher.Email = teacherDto.Email;
             existingTeacher.Department = teacherDto.Department;
             await _repo.UpdateAsync(existingTeacher);
+            return true;
         }
-        public async Task DeleteTeacherAsync(int id)
+        public async Task<bool> DeleteTeacherAsync(int id)
         {
             var existingTeacher = await _repo.GetByIdAsync(id);
             if (existingTeacher == null)
-                throw new KeyNotFoundException("Teacher not found");
+                return false;
             await _repo.DeleteAsync(existingTeacher);
+            return true;
         }
     }
 }
