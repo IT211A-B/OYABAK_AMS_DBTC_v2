@@ -17,18 +17,29 @@
 
     @* filter card *@
     <div class="course-filter-card">
-        <form method="get" asp-action="CourseView" asp-controller="Course" class="course-filter-form">
-            <input type="text"
-                   name="search"
-                   class="course-search"
-                   placeholder="Search Course Code or Name"
-                   value="@Model.SearchTerm" />
+        <form method="get"
+              asp-action="CourseView"
+              asp-controller="Course"
+              class="course-filter-form">
+
+            <input class="course-search"
+                   type="text"
+                   placeholder="Search Course Code or Name" />
+
             <select name="semester" class="course-select">
                 @foreach (var s in Model.Semesters)
                 {
-                    <option value="@s" selected="@(Model.SelectedSemester == s ? "selected" : null)">@s</option>
+                    <option value="@s"
+                            selected="@(Model.SelectedSemester == s ? "selected" : null)">
+                        @s
+                    </option>
                 }
             </select>
+
+            <button type="submit" class="filter-btn">
+                Filter
+            </button>
+
         </form>
     </div>
 

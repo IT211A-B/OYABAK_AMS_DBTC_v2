@@ -4,6 +4,6 @@ namespace AM_DBTC.Services
 {
     public interface IAttendanceService
     {
-        Task<AttendanceModel> GetAttendanceAsync(string course, string month);
+        Task<AttendanceModel> GetAttendanceAsync(string userName, string course, string month, int page, int pageSize);
     }
 }
