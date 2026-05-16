@@ -26,6 +26,21 @@ namespace AMS_DBTC_API_v2.Controllers
         }
 
         /// <summary>
+        /// Retrieves all student records.
+        /// </summary>
+        /// <returns>
+        /// Returns a list of all students.
+        /// </returns>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAllStudents()
+        {
+            var students = await _studentService.GetAllAsync();
+
+            return Ok(students);
+        }
+
+        /// <summary>
         /// Creates a new student record.
         /// </summary>
         /// <param name="studentDto">
