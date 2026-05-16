@@ -14,13 +14,13 @@ namespace AMS_DBTC_API_v2.Services.Implementations
             _attendanceRepository = attendanceRepository;
             _courseRepository = courseRepository;
         }
-        public async Task<AttendanceDTO> CreateAttendanceAsync(AttendanceUpsertDTO attendanceDto)
+        public async Task<AttendanceDTO?> CreateAttendanceAsync(AttendanceUpsertDTO attendanceDto)
         {
             var course = await _courseRepository.GetByIdAsync(attendanceDto.CourseId);
+
             if (course == null)
-            {
-                throw new Exception("Course not found");
-            }
+                return null;
+
             var attendance = new Attendance
             {
                 StudentId = attendanceDto.StudentId,
@@ -28,7 +28,9 @@ namespace AMS_DBTC_API_v2.Services.Implementations
                 Date = attendanceDto.Date,
                 Status = attendanceDto.Status
             };
+
             var createdAttendance = await _attendanceRepository.CreateAsync(attendance);
+
             return new AttendanceDTO
             {
                 AttendanceId = createdAttendance.AttendanceId,

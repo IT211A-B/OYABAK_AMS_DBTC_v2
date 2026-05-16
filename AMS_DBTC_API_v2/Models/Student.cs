@@ -1,10 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using AMS_DBTC_API_v2.Enums;
 
 namespace AMS_DBTC_API_v2.Models
 {
     public class Student
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int StudentId { get; set; }
         
         [Required]
@@ -30,6 +33,8 @@ namespace AMS_DBTC_API_v2.Models
         public YearLevel yearLevel { get; set; }
         [Required]
         public string Program { get; set; }
+
+        [Required]
         public int CourseId { get; set; }
         public Course Course { get; set; } = null!;
     }

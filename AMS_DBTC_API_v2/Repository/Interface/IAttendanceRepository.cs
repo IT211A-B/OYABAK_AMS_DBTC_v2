@@ -1,5 +1,4 @@
 ﻿using AMS_DBTC_API_v2.Models;
-using AMS_DBTC_API_v2.DTOs;
 
 namespace AMS_DBTC_API_v2.Repository.Interface
 {
@@ -7,9 +6,13 @@ namespace AMS_DBTC_API_v2.Repository.Interface
     {
         Task<IEnumerable<Attendance>> GetAllAsync();
         Task<Attendance?> GetByIdAsync(int id);
+
         Task<Attendance> CreateAsync(Attendance attendance);
-        Task<Attendance> UpdateAsync(Attendance attendance);
-        Task DeleteAsync(int id);
+
+        Task<Attendance?> UpdateAsync(Attendance attendance);
+
+        Task<bool> DeleteAsync(int id);
+
         Task<IEnumerable<Attendance>> GetAttendancesByCourseIdAsync(int courseId);
         Task<IEnumerable<Attendance>> GetAttendancesByStudentIdAsync(int studentId);
     }
