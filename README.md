@@ -1,4 +1,4 @@
-# OYABAL ATTENDANCE MANAGEMENT SYSTEM
+# OYABAK ATTENDANCE MANAGEMENT SYSTEM
 Task Description:
 The OYABAK Management System Project is developed by our team, focused on building a web-based system designed to manage and streamline attendance and related operations effectively, suitable for academic and administrative use. This system allows users to handle records, schedules, and monitoring features efficiently, providing a centralized platform for smooth workflow and data oversight.
 
