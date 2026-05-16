@@ -29,8 +29,10 @@
 {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 7px;
     padding: 10px 18px;
+    width: 140px;
     border-radius: 8px;
     font-size: 0.875rem;
     font-weight: 600;

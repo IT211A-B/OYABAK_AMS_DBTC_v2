@@ -19,7 +19,7 @@ namespace AM_DBTC.Controllers
         public async Task<IActionResult> AttendanceView(string userName = "", string course = "All Courses", string month = "All Dates", int page = 1, int pageSize = 5)
         {
             var model = await _attendanceService.GetAttendanceAsync(userName, course, month, page, pageSize);
-            return View(model); // use default view
+            return View(model);
         }
     }
 }

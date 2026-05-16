@@ -20,6 +20,7 @@
         public List<string> Months { get; set; } = new();
         public string SelectedCourse { get; set; } = string.Empty;
         public string SelectedMonth { get; set; } = string.Empty;
+        public string SearchUserName { get; set; } = string.Empty;
         public int CurrentPage { get; set; } = 1;
         public int TotalPages { get; set; } = 1;
     }
