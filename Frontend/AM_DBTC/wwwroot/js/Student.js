@@ -12,8 +12,7 @@ function openEditModal(rollNo, name, semester, course) {
 
 function confirmDelete(rollNo, name) {
     document.getElementById('deleteRollNo').value = rollNo;
-    document.getElementById('deleteMessage').textContent =
-        'Are you sure you want to delete ' + name + '? This action cannot be undone.';
+    document.getElementById('deleteMessage').textContent = 'Are you sure you want to delete ' + name + '? This action cannot be undone.';
     document.getElementById('deleteModal').style.display = 'flex';
 }
 

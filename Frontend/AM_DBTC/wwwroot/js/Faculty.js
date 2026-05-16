@@ -12,8 +12,7 @@ function openEditModal(empId, name, department, courses) {
 
 function confirmDelete(empId, name) {
     document.getElementById('deleteEmpId').value = empId;
-    document.getElementById('deleteMessage').textContent =
-        'Are you sure you want to delete ' + name + '? This action cannot be undone.';
+    document.getElementById('deleteMessage').textContent = 'Are you sure you want to delete ' + name + '? This action cannot be undone.';
     document.getElementById('deleteModal').style.display = 'flex';
 }
 
