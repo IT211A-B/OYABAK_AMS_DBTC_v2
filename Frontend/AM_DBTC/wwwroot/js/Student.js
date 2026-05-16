@@ -1,4 +1,26 @@
-﻿function openAddModal() {
+﻿import { useEffect } from "react";
+
+function Student() {
+
+    useEffect(() => {
+        fetch("http://localhost:7167/api/student")
+            .then(res => res.json())
+            .then(data => {
+                console.log("Students:", data);
+            });
+    }, []);
+
+    return (
+        <div>
+            <h1>Student Page</h1>
+        </div>
+    );
+}
+
+export default Student;
+
+
+function openAddModal() {
     document.getElementById('addModal').style.display = 'flex';
 }
 

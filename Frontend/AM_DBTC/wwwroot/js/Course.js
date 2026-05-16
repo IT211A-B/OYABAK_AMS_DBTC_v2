@@ -1,4 +1,38 @@
-﻿function openAddModal() {
+﻿import { useEffect, useState } from "react";
+
+function Course() {
+    const [courses, setCourses] = useState([]);
+
+    useEffect(() => {
+        fetch("http://localhost:7167/api/course")
+            .then((res) => res.json())
+            .then((data) => {
+                setCourses(data);
+                console.log("Courses:", data);
+            })
+            .catch((err) => {
+                console.error("Error fetching courses:", err);
+            });
+    }, []);
+
+    return (
+        <div>
+            <h1>Course Page</h1>
+
+            <ul>
+                {courses.map((course, index) => (
+                    <li key={index}>
+                        {JSON.stringify(course)}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+}
+
+export default Course;
+
+function openAddModal() {
     document.getElementById('addModal').style.display = 'flex';
 }
 

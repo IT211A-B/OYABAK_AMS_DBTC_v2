@@ -1,4 +1,26 @@
-﻿function openAddModal() {
+﻿import { useEffect } from "react";
+
+function Faculty() {
+
+    useEffect(() => {
+        fetch("http://localhost:7167/api/faculty")
+            .then(res => res.json())
+            .then(data => {
+                console.log("Faculty:", data);
+            });
+    }, []);
+
+    return (
+        <div>
+            <h1>Faculty Page</h1>
+        </div>
+    );
+}
+
+export default Faculty;
+
+
+function openAddModal() {
     document.getElementById('addModal').style.display = 'flex';
 }
 
