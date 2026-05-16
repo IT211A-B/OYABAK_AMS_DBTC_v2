@@ -6,11 +6,7 @@ namespace AMS_DBTC_API_v2.DTOs
     public class AttendanceDTO
     {
         public int AttendanceId { get; set; }
-
-        [Range(1, int.MaxValue)]
         public int StudentId { get; set; }
-
-        [Range(1, int.MaxValue)]
         public int CourseId { get; set; }
 
         [Required]
@@ -20,10 +16,7 @@ namespace AMS_DBTC_API_v2.DTOs
 
     public class AttendanceUpsertDTO
     {
-        [Range(1, int.MaxValue)]
         public int StudentId { get; set; }
-
-        [Range(1, int.MaxValue)]
         public int CourseId { get; set; }
 
         [Required]

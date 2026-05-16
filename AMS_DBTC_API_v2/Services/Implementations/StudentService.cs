@@ -7,6 +7,7 @@ namespace AMS_DBTC_API_v2.Services.Implementations
     public class StudentService : IStudentService
     {
         private readonly IStudentRepository _repo;
+
         public StudentService(IStudentRepository repo)
         {
             _repo = repo;
@@ -15,6 +16,7 @@ namespace AMS_DBTC_API_v2.Services.Implementations
         public async Task<IEnumerable<StudentDTO>> GetAllAsync()
         {
             var students = await _repo.GetAllAsync();
+
             return students.Select(s => new StudentDTO
             {
                 StudentId = s.StudentId,
@@ -24,16 +26,16 @@ namespace AMS_DBTC_API_v2.Services.Implementations
                 RollNumber = s.RollNumber,
                 Email = s.Email,
                 YearLevel = s.yearLevel,
-                sex = s.sex,                
+                sex = s.sex,
             });
         }
 
-        public async Task<StudentDTO> GetStudentByIdAsync(int id)
+        public async Task<StudentDTO?> GetStudentByIdAsync(int id)
         {
             var student = await _repo.GetByIdAsync(id);
 
             if (student == null)
-                throw new KeyNotFoundException("Student not found");
+                return null;
 
             return new StudentDTO
             {
@@ -47,6 +49,7 @@ namespace AMS_DBTC_API_v2.Services.Implementations
                 sex = student.sex,
             };
         }
+
         public async Task<StudentDTO> CreateStudentAsync(CreateStudentDTO studentDto)
         {
             var student = new Models.Student
@@ -58,10 +61,12 @@ namespace AMS_DBTC_API_v2.Services.Implementations
                 Email = studentDto.Email,
                 yearLevel = studentDto.yearLevel,
                 sex = studentDto.sex,
-                Program = studentDto.Program
+                Program = studentDto.Program,
+                CourseId = studentDto.CourseId
             };
 
             var createdStudent = await _repo.CreateAsync(student);
+
             return new StudentDTO
             {
                 StudentId = createdStudent.StudentId,
@@ -74,11 +79,14 @@ namespace AMS_DBTC_API_v2.Services.Implementations
                 sex = createdStudent.sex,
             };
         }
+
         public async Task<bool> UpdateStudentAsync(int id, UpdateStudentDTO studentDto)
         {
             var student = await _repo.GetByIdAsync(id);
+
             if (student == null)
                 return false;
+
             student.FirstName = studentDto.FirstName;
             student.MiddleName = studentDto.MiddleName;
             student.LastName = studentDto.LastName;
@@ -88,17 +96,19 @@ namespace AMS_DBTC_API_v2.Services.Implementations
             student.sex = studentDto.sex;
 
             await _repo.UpdateAsync(student);
+
             return true;
         }
 
         public async Task<bool> DeleteStudentAsync(int id)
         {
-            var student = await _repo.GetByIdAsync (id);
+            var student = await _repo.GetByIdAsync(id);
 
             if (student == null)
                 return false;
 
             var result = await _repo.DeleteAsync(student);
+
             if (!result)
                 return false;
 
